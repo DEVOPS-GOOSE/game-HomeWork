@@ -3,12 +3,16 @@ import Phaser from "phaser";
 let background;
 let platforms;
 let player;
+let plat_move;
+let plat_vertical
 
 let keyW;
 let keyA;
 let keyS;
 let keyD;
 let keySpace;
+
+let event1
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -21,9 +25,11 @@ class GameScene extends Phaser.Scene {
         // code here
         this.load.image('bg','src/img/tiles/bg.png');
         this.load.image('ground', 'src/img/tiles/platform.jpeg');
+        this.load.image('platform_vertical', 'src/img/tiles/platform_dark_vertical.jpeg')
+        this.load.image('platform', 'src/img/tiles/platform_dark.jpeg')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
-        this.load.spritesheet('playerJump', 'src/img/sprites/player/jump.png', {frameWidth: 192, frameHeight: 192});
+        //this.load.spritesheet('playerJump', 'src/img/sprites/player/jump.png', {frameWidth: 192, frameHeight: 192});
 
     }
 
@@ -32,11 +38,22 @@ class GameScene extends Phaser.Scene {
 
         platforms = this.physics.add.staticGroup()
         platforms.enableBody = true
-
-        let ground = platforms.create(this.sys.game.canvas.width/2,this.sys.game.canvas.height-10, 'ground')
+        //=======Ground=======
+        let ground = platforms.create(this.sys.game.canvas.width/2,this.sys.game.canvas.height-14, 'ground')
         ground.setScale(3,2);
         ground.setImmovable();
         ground.refreshBody();
+        //========Platforms======
+        plat_vertical = platforms.create(this.sys.game.canvas.width/3.5, 117, 'platform_vertical')
+        platforms.create(21,151,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(81,116,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
+        plat_move =  this.physics.add.image(131,81,'platform').setScale(0.2,0.5)
+        //.refreshBody()
+      //  plat1.setScale(1,0.5).setAngle(90)
+       // plat1.refreshBody();
+
 
         //=====Player======
         player = this.physics.add.sprite(100,100,'playerIdle').setSize(12,14).setOffset(90,98)
@@ -76,6 +93,9 @@ class GameScene extends Phaser.Scene {
         //     repeat: -1
         // })
 
+    
+
+
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -85,6 +105,8 @@ class GameScene extends Phaser.Scene {
     }
 
     update(delta, time) {
+       
+
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;
@@ -105,10 +127,8 @@ class GameScene extends Phaser.Scene {
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
         }
-        // if (keyW.isDown && player.body.touching.down) {
-            
-            
-        // }
+
+
     }
 }
 export default GameScene;
