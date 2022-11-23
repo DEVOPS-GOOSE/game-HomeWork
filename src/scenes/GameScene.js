@@ -1,10 +1,14 @@
-import Phaser from "phaser";
+import Phaser, { Scene } from "phaser";
 
 let background;
 let platforms;
 let player;
 let plat_move;
 let plat_vertical
+let plat_right;
+
+
+let lava;
 
 let keyW;
 let keyA;
@@ -12,7 +16,8 @@ let keyS;
 let keyD;
 let keySpace;
 
-let event1
+let event
+let x = 1
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -27,9 +32,9 @@ class GameScene extends Phaser.Scene {
         this.load.image('ground', 'src/img/tiles/platform.jpeg');
         this.load.image('platform_vertical', 'src/img/tiles/platform_dark_vertical.jpeg')
         this.load.image('platform', 'src/img/tiles/platform_dark.jpeg')
+        this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
-        //this.load.spritesheet('playerJump', 'src/img/sprites/player/jump.png', {frameWidth: 192, frameHeight: 192});
 
     }
 
@@ -44,26 +49,38 @@ class GameScene extends Phaser.Scene {
         ground.setImmovable();
         ground.refreshBody();
         //========Platforms======
-        plat_vertical = platforms.create(this.sys.game.canvas.width/3.5, 117, 'platform_vertical')
+        plat_vertical = platforms.create(this.sys.game.canvas.width/3.5, 115,'platform_vertical')
+        plat_vertical.setScale(1,1.02).refreshBody()
+
         platforms.create(21,151,'platform').setScale(0.3,0.5).refreshBody()
         platforms.create(81,116,'platform').setScale(0.3,0.5).refreshBody()
         platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
         platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
-        plat_move =  this.physics.add.image(131,81,'platform').setScale(0.2,0.5)
-        //.refreshBody()
-      //  plat1.setScale(1,0.5).setAngle(90)
-       // plat1.refreshBody();
 
+        plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5)
+        plat_move.setImmovable();
+        plat_move.setCollideWorldBounds(true);
 
+        
+        plat_right = platforms.create(365,132,'platform').setScale(0.25,8).refreshBody()
+
+        //============Lava==============
+        lava = this.physics.add.image(231,180,'lava')
+        lava.setScale(0.305,0.1)
+
+        
         //=====Player======
-        player = this.physics.add.sprite(100,100,'playerIdle').setSize(12,14).setOffset(90,98)
-     //   player.refreshBody()
+        player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98)
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
+        this.physics.add.collider(player, plat_move)
+        this.physics.add.collider(plat_move, plat_right)
+        this.physics.add.collider(plat_move, plat_vertical)
 
+        this.physics.add.overlap(player, lava)
         //==========animation==========
         this.anims.create({
             key: 'idleAni',
@@ -83,19 +100,26 @@ class GameScene extends Phaser.Scene {
             duration: 800,
             repeat: -1
         })
-        // this.anims.create({
-        //     key: 'jumpAni',
-        //     frames: this.anims.generateFrameNumbers('playerJump', {
-        //         start: 0,
-        //         end: 8
-        //     }),
-        //     duration: 800,
-        //     repeat: -1
-        // })
+      
+        //============= Moving Platform ===============
+        event = this.time.addEvent({
+            callback: function(){
+                
+                this.physics.add.collider(plat_move, plat_right, function () {
+                        plat_move.setVelocityX(-100)
+                });
+                this.physics.add.collider(plat_move, plat_vertical, function () {
+                    plat_move.setVelocityX(100)
+                });
+            },
+            callbackScope: this,
+            loop: true
+        })
+        //============= Touching Lava ===============
+        this.physics.add.overlap(player, lava, () => {
+            this.scene.restart()
 
-    
-
-
+        })
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -105,7 +129,6 @@ class GameScene extends Phaser.Scene {
     }
 
     update(delta, time) {
-       
 
         if(keyA.isDown){
             player.setVelocityX(-100);
@@ -117,9 +140,6 @@ class GameScene extends Phaser.Scene {
             player.flipX = false;
             player.anims.play('runAni', true);
         }
-        // else if (keyW.isDown){
-        //     finn.setVelocityY(-200)
-        // }
         else {
             player.setVelocityX(0);
             player.anims.play('idleAni', true);
@@ -127,8 +147,6 @@ class GameScene extends Phaser.Scene {
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
         }
-
-
     }
 }
 export default GameScene;
