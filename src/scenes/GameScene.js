@@ -6,7 +6,7 @@ let player;
 let plat_move;
 let plat_vertical
 let plat_right;
-//let platformHit
+
 
 let lava;
 
@@ -35,7 +35,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
-        //this.load.spritesheet('playerJump', 'src/img/sprites/player/jump.png', {frameWidth: 192, frameHeight: 192});
 
     }
 
@@ -61,7 +60,7 @@ class GameScene extends Phaser.Scene {
         plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5)
         plat_move.setImmovable();
         plat_move.setCollideWorldBounds(true);
-       // plat_move.setVelocityX(100);
+
         
         plat_right = platforms.create(365,132,'platform').setScale(0.25,8).refreshBody()
 
@@ -72,7 +71,6 @@ class GameScene extends Phaser.Scene {
         
         //=====Player======
         player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98)
-     //   player.refreshBody()
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
 
@@ -83,8 +81,6 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(plat_move, plat_vertical)
 
         this.physics.add.overlap(player, lava)
-
-      //  plat_move.setBounce(1,0)
         //==========animation==========
         this.anims.create({
             key: 'idleAni',
@@ -110,11 +106,9 @@ class GameScene extends Phaser.Scene {
             callback: function(){
                 
                 this.physics.add.collider(plat_move, plat_right, function () {
-                        //platformHit= true;
                         plat_move.setVelocityX(-100)
                 });
                 this.physics.add.collider(plat_move, plat_vertical, function () {
-                    //platformHit= true;
                     plat_move.setVelocityX(100)
                 });
             },
@@ -126,8 +120,6 @@ class GameScene extends Phaser.Scene {
             this.scene.restart()
 
         })
-
-
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -155,9 +147,6 @@ class GameScene extends Phaser.Scene {
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
         }
-     //  plat_move.setVelocityX(100);
-
-
     }
 }
 export default GameScene;
