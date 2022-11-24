@@ -3,7 +3,10 @@ import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
 import GameScene2 from './scenes/GameScene2';
 import MainMenu from './scenes/MainMenu';
-
+import EndMenu from './scenes/EndMenu';
+import Tutorial from './scenes/Tutorial';
+import GameScene4 from './scenes/GameScene4';
+import GameScene5 from './scenes/GameScene5';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -20,12 +23,22 @@ const config = {
         }
     },
     scene: [
-        // MainMenu,
-        // GameScene
-        GameScene2
+
+       
+        MainMenu,
+        Tutorial,
+        GameScene,
+        GameScene2,
+        GameScene4
+        GameScene5,
+        EndMenu,
+        
+
     ],
     
     
 };
 
 const game = new Phaser.Game(config);
+
+//var player
