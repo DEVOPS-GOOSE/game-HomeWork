@@ -4,22 +4,23 @@ import { Tween } from "phaser/src/tweens";
 let background;
 let platforms;
 let player;
-let plat_move;
-let plat_vertical
-let plat_right;
-
-let lava;
-
 let keyW;
 let keyA;
 let keyD;
 
+
 let event
 
-class GameScene extends Phaser.Scene {
+let buttonA;
+let buttonW;
+let buttonD
+
+//let portal;
+
+class Tutorial extends Phaser.Scene {
     constructor(test) {
         super({
-            key: 'GameScene'
+            key: 'Tutorial'
         });
     }
 
@@ -30,8 +31,15 @@ class GameScene extends Phaser.Scene {
         this.load.image('platform_vertical', 'src/img/tiles/platform_dark_vertical.jpeg')
         this.load.image('platform', 'src/img/tiles/platform_dark.jpeg')
         this.load.image('lava', 'src/img/tiles/lava.png')
+        this.load.image('portal', 'src/img/tiles/portal.png')
+
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
+
+        //=========== Key ==============
+        this.load.image('buttonA','src/img/sprites/AKey.png');
+        this.load.image('buttonW','src/img/sprites/WKey.png');
+        this.load.image('buttonD','src/img/sprites/DKey.png');
     }
 
     create() {
@@ -44,26 +52,23 @@ class GameScene extends Phaser.Scene {
         ground.setScale(3,2);
         ground.setImmovable();
         ground.refreshBody();
-        //========Platforms======
-        plat_vertical = platforms.create(this.sys.game.canvas.width/3.5, 115,'platform_vertical')
-        plat_vertical.setScale(1,1.02).refreshBody()
+        //========Platforms========
 
-        platforms.create(21,151,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,116,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
+         platforms.create(200,151,'platform').setScale(0.3,0.5).refreshBody()
+         platforms.create(250,116,'platform').setScale(0.3,0.5).refreshBody()
+         platforms.create(300,81,'platform').setScale(0.3,0.5).refreshBody()
 
-        plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5) //(130,81)
-        plat_move.setImmovable();
-        plat_move.setCollideWorldBounds(true);
-
+        //=========Portal===========
+        let portal = this.physics.add.image(360,30,'portal').setScale(0.1); //360,30
+        portal.setSize(270,530)//.refreshBody();
+        portal.setOffset(320,70);
+        //portal.refreshBody()
         
-        plat_right = platforms.create(365,132,'platform').setScale(0.25,8).refreshBody()
-
-        //============Lava==============
-        lava = this.physics.add.image(231,180,'lava')
-        lava.setScale(0.305,0.1)
-
+    
+        //============ Key==============
+        buttonA = this.add.image(50,108,'buttonA').setScale(0.2);
+        buttonW = this.add.image(95,60,'buttonW').setScale(0.2);
+        buttonD = this.add.image(140,108,'buttonD').setScale(0.2);
         
         //=====Player======
         player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98)
@@ -72,11 +77,10 @@ class GameScene extends Phaser.Scene {
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
-        this.physics.add.collider(player, plat_move)
-        this.physics.add.collider(plat_move, plat_right)
-        this.physics.add.collider(plat_move, plat_vertical)
-
-        this.physics.add.overlap(player, lava)
+        this.physics.add.overlap(player, portal)
+        this.physics.add.overlap(player, portal, () => {
+            this.scene.start("GameScene");
+        })
         //==========animation==========
         this.anims.create({
             key: 'idleAni',
@@ -96,56 +100,68 @@ class GameScene extends Phaser.Scene {
             duration: 800,
             repeat: -1
         })
-      
-        //============= Moving Platform ===============
-        event = this.time.addEvent({
-            callback: function(){
-                this.physics.add.collider(plat_move, plat_right, function () {
-                        plat_move.setVelocityX(-100)
-                });
-                this.physics.add.collider(plat_move, plat_vertical, function () {
-                    plat_move.setVelocityX(100)
-                });
-            },
-            callbackScope: this,
-            loop: true
-        })
-
-        //============= Touching Lava ===============
-        this.physics.add.overlap(player, lava, () => {
-            this.scene.restart()
-
-        })
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)  
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-      
-
        
     }
 
     update(delta, time) {
 
-       
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;
             player.anims.play('runAni', true);
-        }
+            this.tweens.add({
+                 targets: buttonA,
+                 y: 90,
+                 duration: 200,
+             })
+       }else if (Phaser.Input.Keyboard.JustUp(keyA)) {
+            this.tweens.add({
+                 targets: buttonA,
+                 y: 108,
+                 duration: 200
+            })
+       }
         else if(keyD.isDown){
             player.setVelocityX(100);
             player.flipX = false;
             player.anims.play('runAni', true);
+            this.tweens.add({
+                targets: buttonD,
+                y: 90,
+                duration: 200,
+            })
         }
+        else if (Phaser.Input.Keyboard.JustUp(keyD)) {
+            this.tweens.add({
+                 targets: buttonD,
+                 y: 108,
+                 duration: 200
+            })
+       }
         else {
             player.setVelocityX(0);
             player.anims.play('idleAni', true);
         }
+
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
-    
+            this.tweens.add({
+                targets: buttonW,
+                y: 50,
+                duration: 200,
+            })
         }
+        else if (Phaser.Input.Keyboard.JustUp(keyW)) {
+            this.tweens.add({
+                 targets: buttonW,
+                 y: 60,
+                 duration: 200
+            })
+       }
     }
 }
-export default GameScene;
+export default Tutorial;
