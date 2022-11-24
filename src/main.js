@@ -2,6 +2,7 @@ import 'phaser';
 import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
 import MainMenu from './scenes/MainMenu';
+import EndMenu from './scenes/EndMenu';
 
 
 const config = {
@@ -19,11 +20,16 @@ const config = {
         }
     },
     scene: [
+        
         MainMenu,
-        GameScene
+        GameScene,
+        EndMenu,
+        
     ],
     
     
 };
 
 const game = new Phaser.Game(config);
+
+//var player

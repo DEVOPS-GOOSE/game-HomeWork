@@ -1,4 +1,5 @@
 import Phaser, { Scene } from "phaser";
+import { Tween } from "phaser/src/tweens";
 
 let background;
 let platforms;
@@ -6,7 +7,6 @@ let player;
 let plat_move;
 let plat_vertical
 let plat_right;
-
 
 let lava;
 
@@ -17,7 +17,6 @@ let keyD;
 let keySpace;
 
 let event
-let x = 1
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -35,7 +34,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
-
     }
 
     create() {
@@ -57,7 +55,7 @@ class GameScene extends Phaser.Scene {
         platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
         platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
 
-        plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5)
+        plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5) //(130,81)
         plat_move.setImmovable();
         plat_move.setCollideWorldBounds(true);
 
@@ -104,7 +102,6 @@ class GameScene extends Phaser.Scene {
         //============= Moving Platform ===============
         event = this.time.addEvent({
             callback: function(){
-                
                 this.physics.add.collider(plat_move, plat_right, function () {
                         plat_move.setVelocityX(-100)
                 });
@@ -115,6 +112,15 @@ class GameScene extends Phaser.Scene {
             callbackScope: this,
             loop: true
         })
+        // this.tweens.add({
+        //     targets: plat_move,
+        //     x: plat_move.x += 20,
+        //     yoyo: true,
+        //     loop: true,
+        //     repeat: -1,
+        //     duration: 2000
+        // })
+
         //============= Touching Lava ===============
         this.physics.add.overlap(player, lava, () => {
             this.scene.restart()
@@ -126,10 +132,13 @@ class GameScene extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR)
+
+       
     }
 
     update(delta, time) {
 
+       
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;
@@ -146,6 +155,15 @@ class GameScene extends Phaser.Scene {
         }
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
+            // this.tweens.add({
+            //     targets: player,
+            //     y: player.y - 100,
+            //     yoyo: true,
+            //     duraton: 3000
+            // });
+            // setTimeout(() => {
+            //     player.x += 100;
+            // }, 2000)
         }
     }
 }
