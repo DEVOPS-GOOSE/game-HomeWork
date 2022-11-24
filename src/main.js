@@ -4,6 +4,7 @@ import GameScene from './scenes/GameScene';
 import MainMenu from './scenes/MainMenu';
 import EndMenu from './scenes/EndMenu';
 import Tutorial from './scenes/Tutorial';
+import  GameScene5 from './scenes/GameScene5';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -20,10 +21,11 @@ const config = {
         }
     },
     scene: [
-        
+       
         MainMenu,
         Tutorial,
         GameScene,
+        GameScene5,
         EndMenu,
         
     ],
