@@ -2,13 +2,10 @@ import 'phaser';
 import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
 import MainMenu from './scenes/MainMenu';
-<<<<<<< Updated upstream
-
-=======
 import EndMenu from './scenes/EndMenu';
 import Tutorial from './scenes/Tutorial';
 import GameScene4 from './scenes/GameScene4';
->>>>>>> Stashed changes
+
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -27,7 +24,9 @@ const config = {
     scene: [
 <<<<<<< Updated upstream
         MainMenu,
-        GameScene
+        GameScene,
+        GameScene4,
+    
 =======
         GameScene4,
         MainMenu,
