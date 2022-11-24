@@ -21,8 +21,8 @@ class EndMenu extends Phaser.Scene {
         this.load.image('restart_button', 'src/img/sprites/restart_button.png')
         this.load.image('text', 'src/img/sprites/tyforplaying1.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
-        this.load.spritesheet('bro1', 'src/img/sprites/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
-        this.load.spritesheet('bro2', 'src/img/sprites/bro2Idle.png', {frameWidth: 192, frameHeight: 192});
+        this.load.spritesheet('bro1', 'src/img/sprites/bro1/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
+        this.load.spritesheet('bro2', 'src/img/sprites/bro2/bro2Idle.png', {frameWidth: 192, frameHeight: 192});
 
     }
     create() {

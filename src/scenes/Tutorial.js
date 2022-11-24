@@ -62,6 +62,7 @@ class Tutorial extends Phaser.Scene {
         let portal = this.physics.add.image(360,30,'portal').setScale(0.1); //360,30
         portal.setSize(270,530)//.refreshBody();
         portal.setOffset(320,70);
+        //portal.refreshBody()
         
     
         //============ Key==============
@@ -103,7 +104,6 @@ class Tutorial extends Phaser.Scene {
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)  
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-
        
     }
 
