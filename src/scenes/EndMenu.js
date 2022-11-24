@@ -5,6 +5,7 @@ let button
 let player
 let bro1
 let bro2
+let text
 
 
 class EndMenu extends Phaser.Scene {
@@ -18,9 +19,11 @@ class EndMenu extends Phaser.Scene {
         // code here
         this.load.image('background', 'src/img/tiles/outside.png')
         this.load.image('restart_button', 'src/img/sprites/restart_button.png')
+        this.load.image('text', 'src/img/sprites/tyforplaying1.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('bro1', 'src/img/sprites/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('bro2', 'src/img/sprites/bro2Idle.png', {frameWidth: 192, frameHeight: 192});
+
     }
     create() {
         background = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/2,'background').setScale(0.2,0.2)
