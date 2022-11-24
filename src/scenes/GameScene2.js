@@ -9,7 +9,7 @@ let plat_right;
 let ground;
 let ground_right;
 let brother;
-let portal;
+
 
 
 let lava;
@@ -36,7 +36,6 @@ class GameScene2 extends Phaser.Scene {
         this.load.image('ground', 'src/img/tiles/platform.jpeg');
         this.load.image('platform_vertical', 'src/img/tiles/platform_dark_vertical.jpeg')
         this.load.image('platform', 'src/img/tiles/platform_dark.jpeg')
-        this.load.image('portal', 'src/img/tiles/portal.png')
         this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
