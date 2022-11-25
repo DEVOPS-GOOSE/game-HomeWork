@@ -35,7 +35,7 @@ class EndMenu extends Phaser.Scene {
         button.setInteractive();
         button.on("pointerdown",()=>{
             this.clickSound.play()
-            this.scene.start("GameScene")
+            this.scene.start("MainMenu")
         })
         //=========== Characters==========
         player = this.add.sprite(this.sys.game.canvas.width/2,150,'playerIdle').setScale(2)//.setSize(9,14).setOffset(92,98)
@@ -90,8 +90,9 @@ class EndMenu extends Phaser.Scene {
             loop: true,
             delay: 0
         }
+        this.sound.removeByKey('bgMusic');
         this.endMusic.play(endMusicConfig);
-    //    bgMusic.stop()
+        
 
     }   
 

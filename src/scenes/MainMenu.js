@@ -10,7 +10,6 @@ class MainMenu extends Phaser.Scene {
         });
     }
     preload() {
-        // code here
         this.load.image('background', 'src/img/tiles/mainmenu2.png')
         this.load.image('start_button', 'src/img/sprites/start_button.png')
         this.load.audio('bgMusic', 'src/audio/bgMusic.mp3');
@@ -45,6 +44,7 @@ class MainMenu extends Phaser.Scene {
             loop: true,
             delay: 0
         }
+        this.sound.removeByKey('endMusic');
         this.bgMusic.play(bgMusicConfig)
     }
 
