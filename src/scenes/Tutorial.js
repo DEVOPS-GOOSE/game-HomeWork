@@ -16,6 +16,7 @@ let buttonW;
 let buttonD
 
 let portal
+let portalSound
 
 class Tutorial extends Phaser.Scene {
     constructor(test) {
@@ -40,6 +41,8 @@ class Tutorial extends Phaser.Scene {
         this.load.image('buttonA','src/img/sprites/AKey.png');
         this.load.image('buttonW','src/img/sprites/WKey.png');
         this.load.image('buttonD','src/img/sprites/DKey.png');
+
+        this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
     }
 
     create() {
@@ -79,6 +82,7 @@ class Tutorial extends Phaser.Scene {
         this.physics.add.collider(player, platforms)
         this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
+            this.portalSound.play();
             this.scene.start("GameScene");
         })
         //==========animation==========
@@ -105,6 +109,8 @@ class Tutorial extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)  
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
        
+        //======== Audio=========
+        this.portalSound = this.sound.add('portalSound')
     }
 
     update(delta, time) {
