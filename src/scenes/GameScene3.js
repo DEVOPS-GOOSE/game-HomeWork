@@ -169,7 +169,7 @@ class GameScene3 extends Phaser.Scene {
        
         })
         //==========portal overlap==========
-        this.physics.add.overlap(player, portal)
+       this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
           this.scene.start("GameScene4")
     })

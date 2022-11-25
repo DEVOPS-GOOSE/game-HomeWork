@@ -15,7 +15,7 @@ let buttonA;
 let buttonW;
 let buttonD
 
-//let portal;
+let portal
 
 class Tutorial extends Phaser.Scene {
     constructor(test) {
@@ -59,9 +59,9 @@ class Tutorial extends Phaser.Scene {
          platforms.create(300,81,'platform').setScale(0.3,0.5).refreshBody()
 
         //=========Portal===========
-        let portal = this.physics.add.image(360,30,'portal').setScale(0.1); //360,30
-        portal.setSize(270,530)//.refreshBody();
-        portal.setOffset(320,70);
+        portal = this.physics.add.image(360,30,'portal').setScale(0.15); //360,30
+        portal.setSize(150,300)//.refreshBody();
+        portal.setOffset(200,70);
         //portal.refreshBody()
         
     
