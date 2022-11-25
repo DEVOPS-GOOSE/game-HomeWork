@@ -12,6 +12,10 @@ let brother;
 let collectSound
 let portalSound
 let fire
+let fire1
+let fire2
+let fire3
+let fire4
 
 let lava;
 
@@ -22,7 +26,9 @@ let keyD;
 let keySpace;
 
 let event
-let x = 1
+let fireEvent
+let fireGroup
+let timeToken
 
 class GameScene2 extends Phaser.Scene {
     constructor(test) {
@@ -55,6 +61,10 @@ class GameScene2 extends Phaser.Scene {
     }
 
     create() {
+        //===****** FIRE ******=====
+        timeToken = this.time.now
+        this.fire = false
+
         background = this.add.image(192,108,'bg');
 
         platforms = this.physics.add.staticGroup()
@@ -94,10 +104,6 @@ class GameScene2 extends Phaser.Scene {
         lava = this.physics.add.image(151,210,'lava')
         lava.setScale(0.5,0.1).setDepth(1)
 
-        //============Fire==============
-        fire = this.physics.add.sprite(this.sys.game.canvas.width/1.66, 155,'burnstart')
-        fire.setScale(0.3,0.5).setDepth(1)
-
         //=====Player======
         player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98).setDepth(1)
         player.setCollideWorldBounds(true)
@@ -117,6 +123,12 @@ class GameScene2 extends Phaser.Scene {
             brother.destroy()
 
       })
+         //============= Fire ===============
+         fireGroup = this.physics.add.group();
+         fire1 = fireGroup.create(225, 150,'burnloop').setScale(0.8).setDepth(1).setSize(15,20).setOffset(5,10)
+         fire2 = fireGroup.create(190, 117,'burnloop').setScale(0.8).setDepth(1).setSize(15,20).setOffset(5,10)
+         fire3 = fireGroup.create(225, 87,'burnloop').setScale(0.8).setDepth(1).setSize(15,20).setOffset(5,10)
+         fire4 = fireGroup.create(190, 57,'burnloop').setScale(0.8).setDepth(1).setSize(15,20).setOffset(5,10)
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
@@ -132,7 +144,10 @@ class GameScene2 extends Phaser.Scene {
                     this.scene.start("GameScene3")
             })
         })
-
+        this.physics.add.overlap(player, fireGroup, () => {
+            this.scene.restart()
+        })
+        
 
         this.physics.add.overlap(player, lava)
         //==========animation==========
@@ -168,7 +183,8 @@ class GameScene2 extends Phaser.Scene {
       this.collectSound = this.sound.add('collectSound')
       this.portalSound = this.sound.add('portalSound')
       
-        //============= Moving Platform ===============
+     
+         //============= Moving Platform ===============
         event = this.time.addEvent({
             callback: function(){
                 
@@ -197,6 +213,23 @@ class GameScene2 extends Phaser.Scene {
 
     update(delta, time) {
 
+        if ((this.time.now - timeToken) >= 1200) {
+            this.fire = this.isFire(this.fire)
+            if (this.fire) {
+                  fire1.y = 150
+                  fire2.y = 117
+                  fire3.y = 87
+                  fire4.y = 57
+            } else {
+                  fire1.y = 200
+                  fire2.y = 200
+                  fire3.y = 200
+                  fire4.y = 200
+            }
+            console.log(this.fire)
+            timeToken = this.time.now
+        }
+
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;
@@ -217,5 +250,9 @@ class GameScene2 extends Phaser.Scene {
 
         brother.anims.play('idle2Ani', true);
     }
+    isFire(fire) {
+        return !fire
+    }
 }
+
 export default GameScene2;
