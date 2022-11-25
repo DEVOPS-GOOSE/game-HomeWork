@@ -39,7 +39,7 @@ class Tutorial extends Phaser.Scene {
 
         //=========== Key ==============
         this.load.image('buttonA','src/img/sprites/AKey.png');
-        this.load.image('buttonW','src/img/sprites/WKey.png');
+        this.load.image('buttonW','src/img/sprites/Wkey.png');
         this.load.image('buttonD','src/img/sprites/DKey.png');
 
         this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
