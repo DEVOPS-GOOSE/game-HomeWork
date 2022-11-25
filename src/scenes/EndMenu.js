@@ -6,7 +6,8 @@ let player
 let bro1
 let bro2
 let text
-
+let endMusic
+let clickSound
 
 class EndMenu extends Phaser.Scene {
     constructor(test) {
@@ -23,6 +24,9 @@ class EndMenu extends Phaser.Scene {
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('bro1', 'src/img/sprites/bro1/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('bro2', 'src/img/sprites/bro2/bro2Idle.png', {frameWidth: 192, frameHeight: 192});
+       
+        this.load.audio('endMusic', 'src/audio/end_music.mp3');
+        this.load.audio('clickSound', 'src/audio/click_sound.mp3')
 
     }
     create() {
@@ -30,6 +34,7 @@ class EndMenu extends Phaser.Scene {
         button = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/3 + 20,'restart_button').setScale(0.3,0.3)
         button.setInteractive();
         button.on("pointerdown",()=>{
+            this.clickSound.play()
             this.scene.start("GameScene")
         })
 
@@ -73,12 +78,27 @@ class EndMenu extends Phaser.Scene {
             repeat: -1,
             loop: true
         });
+
+        //========== Audio=============
+        this.clickSound = this.sound.add('clickSound')
+        this.endMusic = this.sound.add('endMusic');
+        var endMusicConfig = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.endMusic.play(endMusicConfig);
     }
 
     update(delta, time) {
         player.anims.play('playerAni', true);
         bro1.anims.play('bro1Ani', true);
         bro2.anims.play('bro2Ani', true);
+
        
     }
 }
