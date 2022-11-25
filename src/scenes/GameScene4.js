@@ -29,6 +29,7 @@ class GameScene4 extends Phaser.Scene {
         // code here
         this.load.image("bg", "src/img/tiles/bg.png");
         this.load.image("ground", "src/img/tiles/platform.jpeg");
+        this.load.image("ground2", "src/img/tiles/platform.jpeg")
         this.load.image(
             "platform_vertical",
             "src/img/tiles/platform_dark_vertical.jpeg"
@@ -46,6 +47,10 @@ class GameScene4 extends Phaser.Scene {
 
         this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
         this.load.image('bro2Icon', 'src/img/sprites/bro2/bro2Icon.png')
+
+        this.load.image('smallrock1','src/img/tiles/Cave - SmallRocks.png');
+        this.load.image('smallrock2','src/img/tiles/Cave - SmallRocks2.png');
+        this.load.image('smallrock3','src/img/tiles/Cave - SmallRocks3.png');
     }
     create() {
         background = this.add.image(192, 108, "bg");
@@ -63,15 +68,26 @@ class GameScene4 extends Phaser.Scene {
         ground.setImmovable();
         ground.refreshBody();
 
+        //=======Ground2=======
+        let ground2 = platforms.create(
+            270, 
+            this.sys.game.canvas.height - 14,
+            "ground2"
+        );
+
+        ground2.setScale(1.85, 5);
+        ground2.setImmovable();
+        ground2.refreshBody();
+
         //========Platforms======
-         plat_vertical = platforms.create(this.sys.game.canvas.width/6, 110,'platform_vertical')
-         plat_vertical.setScale(0.7,0.8).refreshBody()
+         plat_vertical = platforms.create(this.sys.game.canvas.width/6, 132,'platform_vertical')
+         plat_vertical.setScale(0.7,0.5).refreshBody()
 
 
-        platforms.create(21,151,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,116,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(45,151,'platform').setScale(0.2,0.5).refreshBody()
+        platforms.create(15,116,'platform').setScale(0.2,0.5).refreshBody()
+        // platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
+        // platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
 
         plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5) //(130,81)
         plat_move.setImmovable();
@@ -82,8 +98,8 @@ class GameScene4 extends Phaser.Scene {
 
 
         //============Lava==============
-        lava = this.physics.add.image(231, 158, "lava");
-        lava.setScale(0.305, 0.1);
+        lava = this.physics.add.image(104, 208, "lava");
+        lava.setScale(0.09, 0.2);
 
         //=====Player======
         player = this.physics.add
@@ -123,20 +139,7 @@ class GameScene4 extends Phaser.Scene {
             repeat: -1
         })
       
-        //============= Moving Platform ===============
-        event = this.time.addEvent({
-            callback: function(){
-                
-                this.physics.add.collider(plat_move, plat_right, function () {
-                        plat_move.setVelocityX(-100)
-                });
-                this.physics.add.collider(plat_move, plat_vertical, function () {
-                    plat_move.setVelocityX(100)
-                });
-            },
-            callbackScope: this,
-            loop: true
-        })
+        
         //============= Touching Lava ===============
         this.physics.add.overlap(player, lava, () => {
             this.scene.restart()
