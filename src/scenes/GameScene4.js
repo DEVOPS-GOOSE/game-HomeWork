@@ -8,12 +8,20 @@ let plat_vertical;
 let plat_right;
 
 let lava;
+let spike;
 
 let keyW;
 let keyA;
 let keyS;
 let keyD;
 let keySpace;
+
+let smallr1;
+let small01Group;
+let small02Group;
+let smallr3;
+let small03Group;
+
 
 let event;
 
@@ -36,6 +44,7 @@ class GameScene4 extends Phaser.Scene {
         );
         this.load.image("platform", "src/img/tiles/platform_dark.jpeg");
         this.load.image("lava", "src/img/tiles/lava.png");
+        this.load.image("spike", "src/img/sprites/spike.png")
         this.load.spritesheet("playerIdle", "src/img/sprites/player/idle.png", {
             frameWidth: 192,
             frameHeight: 192,
@@ -79,6 +88,12 @@ class GameScene4 extends Phaser.Scene {
         ground2.setImmovable();
         ground2.refreshBody();
 
+        //========rock=======
+
+        small02Group = this.physics.add.group(); 
+        small02Group.create(53,130,'smallrock2').setScale(0.04,0.05).setDepth(1).setSize(320,180).setOffset(30,10)
+        small02Group.create(53,134,'smallrock2').setScale(0.04,0.05).setDepth(1).setSize(320,180).setOffset(30,10)
+
         //========Platforms======
          plat_vertical = platforms.create(this.sys.game.canvas.width/6, 132,'platform_vertical')
          plat_vertical.setScale(0.7,0.5).refreshBody()
@@ -86,8 +101,8 @@ class GameScene4 extends Phaser.Scene {
 
         platforms.create(45,151,'platform').setScale(0.2,0.5).refreshBody()
         platforms.create(15,116,'platform').setScale(0.2,0.5).refreshBody()
-        // platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
-        // platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(175,105,'platform').setScale(0.15,0.5).refreshBody()
+        platforms.create(64,93,'platform').setScale(0.15,0.5).refreshBody()
 
         plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5) //(130,81)
         plat_move.setImmovable();
@@ -100,6 +115,10 @@ class GameScene4 extends Phaser.Scene {
         //============Lava==============
         lava = this.physics.add.image(104, 208, "lava");
         lava.setScale(0.09, 0.2);
+
+        //==========spike=========
+        spike = this.physics.add.image(200, 158, "spike");
+        spike.setScale(0.030, 0.04);
 
         //=====Player======
         player = this.physics.add
@@ -119,6 +138,7 @@ class GameScene4 extends Phaser.Scene {
         this.physics.add.collider(plat_move, plat_vertical)
 
         this.physics.add.overlap(player, lava)
+        this.physics.add.overlap(player, spike)
         //==========animation==========
         this.anims.create({
             key: 'idleAni',
@@ -145,6 +165,97 @@ class GameScene4 extends Phaser.Scene {
             this.scene.restart()
 
         })
+
+        //============Touching spike=============
+        this.physics.add.overlap(player, spike, () => {
+            this.scene.restart()
+
+        })
+
+        //==========smallrockgroup2==========
+        this.physics.add.overlap(player, small02Group)
+        this.physics.add.overlap(player,small02Group, () => {
+          this.scene.restart()
+        })
+
+        //==========event==========
+        
+
+        small01Group = this.physics.add.group(); 
+         event = this.time.addEvent({
+            delay: 1000,
+            callback: function () {
+                smallr1  = this.physics.add.image(90,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
+                small01Group.add(smallr1)
+                small01Group.setVelocityY(30)
+                smallr1.setImmovable();
+                this.physics.add.overlap(player, smallr1, () => {this.scene.restart()})
+                
+            },
+            callbackScope: this,
+            repeat: 1
+        })
+        
+        event = this.time.addEvent({
+            delay: 2500,
+            callback: function () {
+                smallr1  = this.physics.add.image(190,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
+                small01Group.add(smallr1)
+                small01Group.setVelocityY(30)
+                smallr1.setImmovable();
+                this.physics.add.overlap(player, smallr1, () => {this.scene.restart()})
+                    
+                
+            },
+            callbackScope: this,
+            repeat: 2
+        })
+        event = this.time.addEvent({
+            delay: 1500,
+            callback: function () {
+               smallr1  = this.physics.add.image(120,40,'smallrock1').setScale(0.04,0.06).setDepth(1).setSize(180,290).setOffset(0,50)
+                small01Group.add(smallr1)
+                small01Group.setVelocityY(30)
+                smallr1.setImmovable();
+                this.physics.add.overlap(player, smallr1, () => {this.scene.restart()})
+                
+            },
+            callbackScope: this,
+            repeat: 2
+        })
+        event = this.time.addEvent({
+            delay: 2000,
+            callback: function () {
+                smallr1  = this.physics.add.image(140,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
+                small01Group.add(smallr1)
+                small01Group.setVelocityY(30)
+                smallr1.setImmovable();
+                this.physics.add.overlap(player, smallr1, () => {this.scene.restart()})
+                
+            },
+            callbackScope: this,
+            repeat:2
+        })
+        event = this.time.addEvent({
+            delay: 2500,
+            callback: function () {
+               smallr1  = this.physics.add.image(160,40,'smallrock1').setScale(0.04,0.06).setDepth(1).setSize(180,290).setOffset(0,50)
+                small01Group.add(smallr1)
+                small01Group.setVelocityY(30)
+                smallr1.setImmovable();
+                this.physics.add.overlap(player, smallr1, () => {this.scene.restart()})
+                
+            },
+            callbackScope: this,
+            loop:true
+        })
+       
+        
+ 
+
+        
+        
+
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
