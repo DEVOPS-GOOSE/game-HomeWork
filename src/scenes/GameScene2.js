@@ -11,6 +11,7 @@ let ground_right;
 let brother;
 let collectSound
 let portalSound
+let fire
 
 let lava;
 
@@ -44,6 +45,10 @@ class GameScene2 extends Phaser.Scene {
         this.load.image('bro1IconGrey', 'src/img/sprites/bro1/bro1IconGrey.png')
         this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
         this.load.image('bro2IconGrey', 'src/img/sprites/bro2/bro2IconGrey.png')
+        //========== Fire =========
+        this.load.spritesheet('burnstart', 'src/img/tiles/burning_start_1.png', {frameWidth: 24, frameHeight: 32});
+        this.load.spritesheet('burnloop', 'src/img/tiles/burning_loop_1.png', {frameWidth: 24, frameHeight: 32});
+        this.load.spritesheet('burnend', 'src/img/tiles/burning_end_1.png', {frameWidth: 24, frameHeight: 32});
         //========== audio=========
         this.load.audio('collectSound', 'src/audio/pickupBro.mp3');
         this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
@@ -88,6 +93,10 @@ class GameScene2 extends Phaser.Scene {
         //============Lava==============
         lava = this.physics.add.image(151,210,'lava')
         lava.setScale(0.5,0.1).setDepth(1)
+
+        //============Fire==============
+        fire = this.physics.add.sprite(this.sys.game.canvas.width/1.66, 155,'burnstart')
+        fire.setScale(0.3,0.5).setDepth(1)
 
         //=====Player======
         player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98).setDepth(1)
