@@ -19,7 +19,7 @@ class MainMenu extends Phaser.Scene {
         button = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/2,'start_button').setScale(0.15,0.15)
         button.setInteractive();
         button.on("pointerdown",()=>{
-            this.scene.start("GameScene")
+            this.scene.start("GameScene3")
         })
     }
 

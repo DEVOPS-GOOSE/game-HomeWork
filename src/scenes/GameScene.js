@@ -129,6 +129,7 @@ class GameScene extends Phaser.Scene {
     }
 
     update(delta, time) {
+       
 
         if(keyA.isDown){
             player.setVelocityX(-100);
