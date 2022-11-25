@@ -23,13 +23,13 @@ const config = {
         }
     },
     scene: [
-
-       
+        GameScene,
         MainMenu,
         Tutorial,
-        GameScene,
+        
+        GameScene4,
         GameScene2,
-        GameScene4
+        
         GameScene5,
         EndMenu,
         
