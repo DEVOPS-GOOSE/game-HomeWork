@@ -86,8 +86,9 @@ class GameScene extends Phaser.Scene {
 
         //============ Portal===========
         portal = this.physics.add.image(375,50,'portal').setScale(0.1); //360,30
-        portal.setSize(260,530);
-        portal.setOffset(170,-35);
+        portal.setSize(200,400);
+        portal.setOffset(170,0);
+
 
 
         //========Colider==========
