@@ -21,18 +21,13 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: [
-
-       
         MainMenu,
-        GameScene,
-        
         Tutorial,
-        
-        GameScene4,
+        GameScene,
         GameScene2,
         GameScene3,
         GameScene4,
