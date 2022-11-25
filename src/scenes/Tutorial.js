@@ -61,7 +61,7 @@ class Tutorial extends Phaser.Scene {
         //=========Portal===========
         let portal = this.physics.add.image(360,30,'portal').setScale(0.1); //360,30
         portal.setSize(270,530)//.refreshBody();
-        portal.setOffset(320,70);
+        portal.setOffset(155,10);
         //portal.refreshBody()
         
     
