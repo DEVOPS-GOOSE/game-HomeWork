@@ -1,5 +1,4 @@
 import Phaser, { Scene } from "phaser";
-import { Tween } from "phaser/src/tweens";
 
 let background;
 let platforms;
@@ -7,19 +6,27 @@ let player;
 let plat_move;
 let plat_vertical
 let plat_right;
+let ground;
+let ground_right;
+let brother;
+
+
 
 let lava;
 
 let keyW;
 let keyA;
+let keyS;
 let keyD;
+let keySpace;
 
 let event
+let x = 1
 
-class GameScene extends Phaser.Scene {
+class GameScene2 extends Phaser.Scene {
     constructor(test) {
         super({
-            key: 'GameScene'
+            key: 'GameScene2'
         });
     }
 
@@ -32,6 +39,8 @@ class GameScene extends Phaser.Scene {
         this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
+        this.load.spritesheet('broIdle', 'src/img/sprites/player/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
+
     }
 
     create() {
@@ -40,41 +49,49 @@ class GameScene extends Phaser.Scene {
         platforms = this.physics.add.staticGroup()
         platforms.enableBody = true
         //=======Ground=======
-        let ground = platforms.create(this.sys.game.canvas.width/2,this.sys.game.canvas.height-14, 'ground')
-        ground.setScale(3,2);
+        ground = platforms.create(this.sys.game.canvas.width/50,this.sys.game.canvas.height-18, 'platform').setCollideWorldBounds(true)
+        ground.setScale(1,5);
         ground.setImmovable();
         ground.refreshBody();
+        ground.setDepth(2);
+        
+        ground_right = platforms.create(207,this.sys.game.canvas.height-18,'platform').setScale(0.5,5).refreshBody().setCollideWorldBounds(true).setDepth(2)
         //========Platforms======
-        plat_vertical = platforms.create(this.sys.game.canvas.width/3.5, 115,'platform_vertical')
-        plat_vertical.setScale(1,1.02).refreshBody()
+        plat_vertical = platforms.create(this.sys.game.canvas.width/1.61, 107,'platform_vertical')
+        plat_vertical.setScale(0.5,0.8).refreshBody()
+        plat_vertical = platforms.create(this.sys.game.canvas.width/2.19, 60,'platform_vertical')
+        plat_vertical.setScale(0.5,1.2).refreshBody()
 
-        platforms.create(21,151,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,116,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(21,81,'platform').setScale(0.3,0.5).refreshBody()
-        platforms.create(81,46,'platform').setScale(0.3,0.5).refreshBody()
+        platforms.create(193,131,'platform').setScale(0.2,0.2).refreshBody()
+        platforms.create(221,101,'platform').setScale(0.2,0.2).refreshBody()
+        platforms.create(193,71,'platform').setScale(0.2,0.2).refreshBody()
+        platforms.create(221,49,'platform').setScale(0.3,0.2).refreshBody()
+        platforms.create(295,101,'platform').setScale(0.2,0.2).refreshBody()
 
-        plat_move = this.physics.add.image(130,81,'platform').setScale(0.2,0.5) //(130,81)
+        plat_move = this.physics.add.image(92,170,'platform').setScale(0.2,0.5)
         plat_move.setImmovable();
         plat_move.setCollideWorldBounds(true);
 
         
-        plat_right = platforms.create(365,132,'platform').setScale(0.25,8).refreshBody()
+        plat_right = platforms.create(365,200,'platform').setScale(0.37,18).refreshBody()
 
         //============Lava==============
-        lava = this.physics.add.image(231,180,'lava')
-        lava.setScale(0.305,0.1)
+        lava = this.physics.add.image(151,210,'lava')
+        lava.setScale(0.5,0.1).setDepth(1)
 
-        
         //=====Player======
-        player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98)
+        player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98).setDepth(1)
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
+
+        brother = this.add.sprite(295,83,'broIdle').setSize(9,14).setScale(1,1).setDepth(0)
+        player.setCollideWorldBounds(true)
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
         this.physics.add.collider(player, plat_move)
-        this.physics.add.collider(plat_move, plat_right)
-        this.physics.add.collider(plat_move, plat_vertical)
+        this.physics.add.collider(plat_move, ground_right)
+        this.physics.add.collider(plat_move, ground)
 
         this.physics.add.overlap(player, lava)
         //==========animation==========
@@ -100,17 +117,17 @@ class GameScene extends Phaser.Scene {
         //============= Moving Platform ===============
         event = this.time.addEvent({
             callback: function(){
-                this.physics.add.collider(plat_move, plat_right, function () {
+                
+                this.physics.add.collider(plat_move, ground_right, function () {
                         plat_move.setVelocityX(-100)
                 });
-                this.physics.add.collider(plat_move, plat_vertical, function () {
+                this.physics.add.collider(plat_move, ground, function () {
                     plat_move.setVelocityX(100)
                 });
             },
             callbackScope: this,
             loop: true
         })
-
         //============= Touching Lava ===============
         this.physics.add.overlap(player, lava, () => {
             this.scene.restart()
@@ -119,16 +136,13 @@ class GameScene extends Phaser.Scene {
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-      
-
-       
+        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR)
     }
 
     update(delta, time) {
-       
 
-       
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;
@@ -145,8 +159,7 @@ class GameScene extends Phaser.Scene {
         }
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
-    
         }
     }
 }
-export default GameScene;
+export default GameScene2;

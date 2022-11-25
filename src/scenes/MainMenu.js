@@ -8,7 +8,6 @@ class MainMenu extends Phaser.Scene {
             key: 'MainMenu'
         });
     }
-
     preload() {
         // code here
         this.load.image('background', 'src/img/tiles/mainmenu2.png')
@@ -19,8 +18,25 @@ class MainMenu extends Phaser.Scene {
         button = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/2,'start_button').setScale(0.15,0.15)
         button.setInteractive();
         button.on("pointerdown",()=>{
-            this.scene.start("GameScene3")
+            this.scene.start("Tutorial")
         })
+
+        this.tweens.add({
+            targets: button,
+            y: 112,
+            duration: 500,
+            yoyo: true,
+            repeat: -1,
+            loop: true
+        });
+        this.tweens.add({
+            targets: button,
+            y: 112,
+            duration: 500,
+            yoyo: true,
+            repeat: -1,
+            loop: true
+        });
     }
 
     update(delta, time) {
