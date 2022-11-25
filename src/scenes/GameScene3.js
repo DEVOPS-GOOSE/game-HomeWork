@@ -8,9 +8,8 @@ let lava;
 
 let keyW;
 let keyA;
-let keyS;
 let keyD;
-let keySpace;
+
 let platf;
 let platf01;
 let platf02;
@@ -37,6 +36,7 @@ let small03Group;
 let portal;
 let event;
 
+let collectSound
 
 class GameScene3 extends Phaser.Scene {
     constructor(test) {
@@ -47,7 +47,7 @@ class GameScene3 extends Phaser.Scene {
 
     preload() {
         // code here
-        this.load.image('bg','src/img/tiles/bg2.png');
+        this.load.image('bg2','src/img/tiles/bg2.png');
         this.load.image('portal','src/img/tiles/portal.png');
         this.load.image('lava', 'src/img/tiles/lava.png')
         this.load.image('platform4','src/img/tiles/Cave - Platforms4.png');
@@ -68,11 +68,16 @@ class GameScene3 extends Phaser.Scene {
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('bro2', 'src/img/sprites/bro2Idle.png', {frameWidth: 192, frameHeight: 192});
 
+        this.load.image('bro2IconGrey', 'src/img/sprites/bro2/bro2IconGrey.png')
+        this.load.image('bro2Icon', 'src/img/sprites/bro2/bro2Icon.png')
+        this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
+
+        this.load.audio('collectSound', 'src/audio/pickupBro.mp3');
     }
 
     create() {
         //=====load=====
-        background = this.add.image(192,109,'bg').setScale(0.2).setDepth(1)
+        background = this.add.image(192,109,'bg2').setScale(0.2).setDepth(1)
         portal = this.physics.add.image(370, 110,'portal').setDepth(3).setScale(0.09).setSize(180,370).setOffset(180,0)
 
         platf6 = this.physics.add.image(3,50,'platform6').setScale(0.35).setSize(390,370).setOffset(5,0).setDepth(2)
@@ -102,9 +107,22 @@ class GameScene3 extends Phaser.Scene {
         player = this.physics.add.sprite(53,120,'playerIdle').setSize(9,14).setOffset(92,98).setDepth(2)// 92 98
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
+        //=========Bro Icon==========
+         this.add.image(320,20,'bro1Icon').setScale(0.8).setDepth(5);
+         this.add.image(340,20,'bro2IconGrey').setScale(0.8).setDepth(5);
+ 
+
 
         //=====Bro2======
         bro2 = this.physics.add.sprite(270,58,'bro2').setSize(23,20).setOffset(85,90).setDepth(2)// 92 98
+        //======== Bro2 Overlap=========
+        this.physics.add.overlap(player, bro2, () => {
+            this.collectSound.play()
+            this.add.image(340,20,'bro2Icon').setScale(0.8).setDepth(6);
+            bro2.destroy()
+
+      })
+
         //========Colider==========
          this.physics.add.collider(player, platf7)
          platf7.setImmovable();
@@ -153,7 +171,7 @@ class GameScene3 extends Phaser.Scene {
         //==========portal overlap==========
         this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
-          this.scene.start("GameScene")
+          this.scene.start("GameScene4")
     })
         
          //==========smallrockgroup2==========
@@ -171,7 +189,7 @@ class GameScene3 extends Phaser.Scene {
         })
         platf55.setImmovable();
 
-        
+
         platf11 = this.physics.add.image(320,75,'platform11').setScale(0.07,0.1).setDepth(2).setSize(310,70).setOffset(10,10)
         this.physics.add.collider(player, platf11, () => {
             platf11.setVelocityY(50)
@@ -310,13 +328,13 @@ class GameScene3 extends Phaser.Scene {
             repeat: -1
         })
       
-      
+      //=========== Audio===========
+      this.collectSound = this.sound.add('collectSound')
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-        keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR)
+      
     }
 
     update(delta, time) {

@@ -21,11 +21,10 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: [
-     
         MainMenu,
         Tutorial,
         GameScene,
@@ -41,5 +40,3 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
-//var player
