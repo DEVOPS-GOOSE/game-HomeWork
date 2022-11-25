@@ -73,6 +73,7 @@ class GameScene3 extends Phaser.Scene {
         this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
 
         this.load.audio('collectSound', 'src/audio/pickupBro.mp3');
+        this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
     }
 
     create() {
@@ -168,9 +169,12 @@ class GameScene3 extends Phaser.Scene {
 
        
         })
+        //========== audio========
+        this.portalSound = this.sound.add('portalSound')
         //==========portal overlap==========
        this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
+            this.portalSound.play()
           this.scene.start("GameScene4")
     })
         

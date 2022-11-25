@@ -72,7 +72,7 @@ class GameScene5 extends Phaser.Scene {
         this.physics.add.collider(bro1, platforms)
         this.physics.add.collider(bro2, platforms)
 
-        this.physics.add.overlap(player, exit)
+    //    this.physics.add.overlap(player, exit)
         this.physics.add.overlap(player, exit, () => {
             this.scene.start("EndMenu");
         })
@@ -179,12 +179,7 @@ class GameScene5 extends Phaser.Scene {
         }
         else {
             player.setVelocityX(0);
-            setTimeout(() => {
-                bro1.setVelocityX(0)
-             }, 200);
-             setTimeout(() => {
-                bro2.setVelocityX(0)
-             }, 400);
+           
             player.anims.play('idleAni', true);
             bro1.anims.play('bro1IdleAni', true);
             bro2.anims.play('bro2IdleAni', true);
