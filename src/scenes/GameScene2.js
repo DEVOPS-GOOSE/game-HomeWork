@@ -84,8 +84,8 @@ class GameScene2 extends Phaser.Scene {
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
 
-        brother = this.add.sprite(295,83,'broIdle').setSize(9,14).setScale(1,1).setDepth(0)
-        player.setCollideWorldBounds(true)
+        brother = this.physics.add.sprite(295,83,'broIdle').setSize(15,26).setScale(1,1).setDepth(0).setOffset(88,85)
+        brother.setCollideWorldBounds(true)
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
@@ -109,6 +109,15 @@ class GameScene2 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('playerRun', {
                 start: 0,
                 end: 7
+            }),
+            duration: 800,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'idle2Ani',
+            frames: this.anims.generateFrameNumbers('broIdle', {
+                start: 0,
+                end: 3
             }),
             duration: 800,
             repeat: -1
@@ -160,6 +169,8 @@ class GameScene2 extends Phaser.Scene {
         if (keyW.isDown && player.body.touching.down){
             player.setVelocityY(-200);
         }
+
+        brother.anims.play('idle2Ani', true);
     }
 }
 export default GameScene2;
