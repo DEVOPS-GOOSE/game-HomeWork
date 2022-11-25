@@ -137,11 +137,11 @@ class GameScene4 extends Phaser.Scene {
 
         //=====monster=====
         monster = this.physics.add
-            .sprite(250, 110, "monsterWalk")
+            .sprite(250, 152, "monsterWalk")
             .setSize(21, 28)
             .setOffset(43, 17.5);
         monster.setCollideWorldBounds(true);
-        monster.setGravityY(500);
+       // monster.setGravityY(500);
 
         //========= Bro icon==========
         this.add.image(320,20,'bro1Icon').setScale(0.8);
@@ -170,6 +170,16 @@ class GameScene4 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('playerRun', {
                 start: 0,
                 end: 7
+            }),
+            duration: 800,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'monAni',
+            frames: this.anims.generateFrameNumbers('monsterWalk', {
+                start: 0,
+                end: 6
             }),
             duration: 800,
             repeat: -1
@@ -209,8 +219,15 @@ class GameScene4 extends Phaser.Scene {
         })
 
         //==========event==========
-        
-
+       
+        this.tweens.timeline({
+            targets: monster.body.velocity,
+            loop: -1,
+            tweens: [
+              { x:    50, y: 0, duration: 2000, ease: 'Stepped' },
+              { x:    -50, y:    0, duration: 2000, ease: 'Stepped' },
+            ]
+          });
         small01Group = this.physics.add.group(); 
          event = this.time.addEvent({
             delay: 1000,
@@ -281,10 +298,6 @@ class GameScene4 extends Phaser.Scene {
         })
        
         
- 
-
-        
-        
 
         //=========Input=============
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
@@ -296,7 +309,12 @@ class GameScene4 extends Phaser.Scene {
         
     }
     update(delta, time) {
-
+        if (monster.x == 250){
+            monster.setVelocityX(50);
+        }
+        else if(monster.x == 300) {
+            monster.setVelocity(-50);
+        }
        
         if(keyA.isDown){
             player.setVelocityX(-100);
