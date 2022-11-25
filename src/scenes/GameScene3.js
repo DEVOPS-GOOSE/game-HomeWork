@@ -47,22 +47,22 @@ class GameScene3 extends Phaser.Scene {
 
     preload() {
         // code here
-        this.load.image('bg2','src/img/tiles/bg2.png');
+        this.load.image('bg2','src/img/new_tiles/bg2.png');
         this.load.image('portal','src/img/tiles/portal.png');
         this.load.image('lava', 'src/img/tiles/lava.png')
-        this.load.image('platform4','src/img/tiles/Cave - Platforms4.png');
-        this.load.image('platform6','src/img/tiles/Cave - Platforms6.png');
-        this.load.image('platform7','src/img/tiles/Cave - Platforms7.png');
-        this.load.image('platform9','src/img/tiles/Cave - Platforms9.png');
-        this.load.image('platform10','src/img/tiles/Cave - Platforms10.png');
-        this.load.image('platform8','src/img/tiles/Cave - Platforms8.png');
-        this.load.image('platform1','src/img/tiles/Cave - Platforms1.png');
-        this.load.image('platform5','src/img/tiles/Cave - Platforms5.png');
-        this.load.image('platform11','src/img/tiles/Cave - Platforms11.png');
+        this.load.image('platform4','src/img/new_tiles/Cave - Platforms4.png');
+        this.load.image('platform6','src/img/new_tiles/Cave - Platforms6.png');
+        this.load.image('platform7','src/img/new_tiles/Cave - Platforms7.png');
+        this.load.image('platform9','src/img/new_tiles/Cave - Platforms9.png');
+        this.load.image('platform10','src/img/new_tiles/Cave - Platforms10.png');
+        this.load.image('platform8','src/img/new_tiles/Cave - Platforms8.png');
+        this.load.image('platform1','src/img/new_tiles/Cave - Platforms1.png');
+        this.load.image('platform5','src/img/new_tiles/Cave - Platforms5.png');
+        this.load.image('platform11','src/img/new_tiles/Cave - Platforms11.png');
 
-        this.load.image('smallrock1','src/img/tiles/Cave - SmallRocks.png');
-        this.load.image('smallrock2','src/img/tiles/Cave - SmallRocks2.png');
-        this.load.image('smallrock3','src/img/tiles/Cave - SmallRocks3.png');
+        this.load.image('smallrock1','src/img/new_tiles/Cave - SmallRocks.png');
+        this.load.image('smallrock2','src/img/new_tiles/Cave - SmallRocks2.png');
+        this.load.image('smallrock3','src/img/new_tiles/Cave - SmallRocks3.png');
 
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});

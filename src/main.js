@@ -28,9 +28,9 @@ const config = {
     },
     scene: [
 
-        
-        MainMenu,
         Intro,
+        MainMenu,
+        
         Tutorial,
         GameScene,
         GameScene2,

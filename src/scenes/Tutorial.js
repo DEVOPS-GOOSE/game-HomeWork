@@ -111,6 +111,16 @@ class Tutorial extends Phaser.Scene {
        
         //======== Audio=========
         this.portalSound = this.sound.add('portalSound')
+
+        let arrow = this.add.image(300,30,'arrow').setScale(0.3);
+        this.tweens.add({
+            targets: arrow,
+            x: 310,
+            duration: 500,
+            yoyo: true,
+            repeat: -1,
+            loop: true
+        });
     }
 
     update(delta, time) {
