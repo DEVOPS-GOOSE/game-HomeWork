@@ -22,7 +22,7 @@ class MainMenu extends Phaser.Scene {
         button.setInteractive();
         button.on("pointerdown",()=>{
             this.clickSound.play()
-            this.scene.start("Tutorial")
+            this.scene.start("Intro")
         })
 
         this.tweens.add({
