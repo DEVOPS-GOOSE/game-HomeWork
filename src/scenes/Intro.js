@@ -4,6 +4,7 @@ let background
 let candle
 let candleSound;
 
+
 class Intro extends Phaser.Scene {
     constructor(test) {
         super({
@@ -14,6 +15,7 @@ class Intro extends Phaser.Scene {
         this.load.image('introBg', 'src/img/tiles/intro_text.png')
         this.load.image('candle', 'src/img/sprites/candle.png')
         this.load.audio('candleSound', 'src/audio/candle_sound.mp3')
+        this.load.image('arrow', 'src/img/sprites/arrow.png')
        
     }
     create() {
@@ -32,9 +34,8 @@ class Intro extends Phaser.Scene {
             repeat: -1,
             loop: true
         });
-
         this.candleSound = this.sound.add('candleSound', {volume: 0.1})
-
+   
     }
 
     update(delta, time) {
