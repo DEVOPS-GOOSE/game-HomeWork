@@ -9,8 +9,8 @@ let plat_right;
 let ground;
 let ground_right;
 let brother;
-
-
+let collectSound
+let portalSound
 
 let lava;
 
@@ -41,7 +41,12 @@ class GameScene2 extends Phaser.Scene {
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('broIdle', 'src/img/sprites/player/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
-
+        this.load.image('bro1IconGrey', 'src/img/sprites/bro1/bro1IconGrey.png')
+        this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
+        this.load.image('bro2IconGrey', 'src/img/sprites/bro2/bro2IconGrey.png')
+        //========== audio=========
+        this.load.audio('collectSound', 'src/audio/pickupBro.mp3');
+        this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
     }
 
     create() {
@@ -76,9 +81,9 @@ class GameScene2 extends Phaser.Scene {
         plat_right = platforms.create(365,200,'platform').setScale(0.37,18).refreshBody()
 
         //=========Portal===========
-        let portal = this.physics.add.image(368,46,'portal').setScale(0.1); //360,30
-        portal.setSize(270,530)//.refreshBody();
-        portal.setOffset(320,70);
+        let portal = this.physics.add.image(368,55,'portal').setScale(0.1); //360,30
+        portal.setSize(270,430)//.refreshBody();
+        portal.setOffset(150,-18);
 
         //============Lava==============
         lava = this.physics.add.image(151,210,'lava')
@@ -88,9 +93,21 @@ class GameScene2 extends Phaser.Scene {
         player = this.physics.add.sprite(53,150,'playerIdle').setSize(9,14).setOffset(92,98).setDepth(1)
         player.setCollideWorldBounds(true)
         player.setGravityY(500);
-
+        // =====Brother======
         brother = this.physics.add.sprite(295,83,'broIdle').setSize(15,26).setScale(1,1).setDepth(0).setOffset(88,85)
         brother.setCollideWorldBounds(true)
+
+        //=========Bro Icon==========
+        this.add.image(320,20,'bro1IconGrey').setScale(0.8).setDepth(5);
+        this.add.image(340,20,'bro2IconGrey').setScale(0.8).setDepth(5);
+
+        //======== Bro Overlap=========
+        this.physics.add.overlap(player, brother, () => {
+            this.collectSound.play()
+            this.add.image(320,20,'bro1Icon').setScale(0.8).setDepth(6);
+            brother.destroy()
+
+      })
 
         //========Colider==========
         this.physics.add.collider(player, platforms)
@@ -99,8 +116,14 @@ class GameScene2 extends Phaser.Scene {
         this.physics.add.collider(plat_move, ground)
         this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
-            this.scene.start("GameScene3");
+            this.portalSound.play();
+            this.time.addEvent({
+                delay: 2000,
+                callback:
+                    this.scene.start("GameScene3")
+            })
         })
+
 
         this.physics.add.overlap(player, lava)
         //==========animation==========
@@ -131,6 +154,10 @@ class GameScene2 extends Phaser.Scene {
             duration: 800,
             repeat: -1
         })
+
+              //=========== Audio===========
+      this.collectSound = this.sound.add('collectSound')
+      this.portalSound = this.sound.add('portalSound')
       
         //============= Moving Platform ===============
         event = this.time.addEvent({
