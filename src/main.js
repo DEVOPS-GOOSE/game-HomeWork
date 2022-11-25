@@ -28,7 +28,6 @@ const config = {
     scene: [
        
         Tutorial,
-       
         EndMenu,
         MainMenu,
         GameScene,
