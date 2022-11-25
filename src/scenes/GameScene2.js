@@ -37,6 +37,7 @@ class GameScene2 extends Phaser.Scene {
         this.load.image('platform_vertical', 'src/img/tiles/platform_dark_vertical.jpeg')
         this.load.image('platform', 'src/img/tiles/platform_dark.jpeg')
         this.load.image('lava', 'src/img/tiles/lava.png')
+        this.load.image('portal', 'src/img/tiles/portal.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('playerRun', 'src/img/sprites/player/run.png', {frameWidth: 192, frameHeight: 192});
         this.load.spritesheet('broIdle', 'src/img/sprites/player/bro1Idle.png', {frameWidth: 192, frameHeight: 192});
@@ -72,8 +73,12 @@ class GameScene2 extends Phaser.Scene {
         plat_move.setImmovable();
         plat_move.setCollideWorldBounds(true);
 
-        
         plat_right = platforms.create(365,200,'platform').setScale(0.37,18).refreshBody()
+
+        //=========Portal===========
+        let portal = this.physics.add.image(368,46,'portal').setScale(0.1); //360,30
+        portal.setSize(270,530)//.refreshBody();
+        portal.setOffset(320,70);
 
         //============Lava==============
         lava = this.physics.add.image(151,210,'lava')
@@ -92,6 +97,10 @@ class GameScene2 extends Phaser.Scene {
         this.physics.add.collider(player, plat_move)
         this.physics.add.collider(plat_move, ground_right)
         this.physics.add.collider(plat_move, ground)
+        this.physics.add.overlap(player, portal)
+        this.physics.add.overlap(player, portal, () => {
+            this.scene.start("GameScene3");
+        })
 
         this.physics.add.overlap(player, lava)
         //==========animation==========
