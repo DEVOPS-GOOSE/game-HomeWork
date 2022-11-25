@@ -18,6 +18,9 @@ let event
 
 let portal
 
+let bgMusic
+let portalSound
+
 class GameScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -37,7 +40,12 @@ class GameScene extends Phaser.Scene {
         this.load.image('bro1IconGrey', 'src/img/sprites/bro1/bro1IconGrey.png')
         this.load.image('bro2IconGrey', 'src/img/sprites/bro2/bro2IconGrey.png')
         this.load.image('portal','src/img/tiles/portal.png')
+
+        //========== audio=========
+        this.load.audio('bgMusic', 'src/audio/bgMusic.mp3');
+        this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
     }
+    
 
     create() {
         background = this.add.image(192,108,'bg');
@@ -80,6 +88,8 @@ class GameScene extends Phaser.Scene {
         portal = this.physics.add.image(380,50,'portal').setScale(0.1); //360,30
         portal.setSize(270,530);
         portal.setOffset(320,70);
+
+
         //========Colider==========
         this.physics.add.collider(player, platforms)
         this.physics.add.collider(player, plat_move)
@@ -90,7 +100,12 @@ class GameScene extends Phaser.Scene {
 
         this.physics.add.overlap(player, portal)
         this.physics.add.overlap(player, portal, () => {
-            this.scene.start("GameScene2");
+            this.portalSound.play();
+            this.time.addEvent({
+                delay: 2000,
+                callback:
+                    this.scene.start("GameScene2")
+            })
         })
 
 
@@ -130,6 +145,7 @@ class GameScene extends Phaser.Scene {
 
         //============= Touching Lava ===============
         this.physics.add.overlap(player, lava, () => {
+          //  this.bgMusic.removeAll()
             this.scene.restart()
 
         })
@@ -137,14 +153,12 @@ class GameScene extends Phaser.Scene {
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-      
-
        
+        //=========== Audio==========
+
+        this.portalSound = this.sound.add('portalSound')
     }
-
     update(delta, time) {
-
-       
         if(keyA.isDown){
             player.setVelocityX(-100);
             player.flipX = true;

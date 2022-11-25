@@ -23,8 +23,9 @@ const config = {
         }
     },
     scene: [
-        GameScene,
         MainMenu,
+        GameScene,
+        
         Tutorial,
         
         GameScene4,
@@ -40,5 +41,3 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
-//var player
