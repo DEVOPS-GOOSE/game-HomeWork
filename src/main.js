@@ -32,7 +32,7 @@ const config = {
         MainMenu,
         Tutorial,
         GameScene,
-        GameScane2,
+        GameScene2,
         GameScene3,
         GameScene4,
         GameScene5,
