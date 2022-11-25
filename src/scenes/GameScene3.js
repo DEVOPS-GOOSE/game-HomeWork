@@ -1,13 +1,8 @@
 import Phaser, { Scene } from "phaser";
 
 let background;
-let platforms;
 let player;
 let bro2;
-let plat_move;
-let plat_vertical
-let plat_right;
-
 
 let lava;
 
@@ -31,7 +26,7 @@ let platf43;
 let platf44;
 let platf55;
 let platf11;
-let platfGroup4;
+
 
 let smallr1;
 let small01Group;
@@ -40,8 +35,8 @@ let smallr3;
 let small03Group;
 
 let portal;
-let event
-let x = 1
+let event;
+
 
 class GameScene3 extends Phaser.Scene {
     constructor(test) {
