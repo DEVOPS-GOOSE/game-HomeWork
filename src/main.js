@@ -29,7 +29,7 @@ const config = {
         Tutorial,
         GameScene,
         GameScene2,
-        GameScene4
+        GameScene4,
         GameScene5,
         EndMenu,
         
