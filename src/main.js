@@ -8,6 +8,7 @@ import GameScene3 from './scenes/GameScene3';
 import GameScene4 from './scenes/GameScene4';
 import GameScene5 from './scenes/GameScene5';
 import EndMenu from './scenes/EndMenu';
+import Intro from './scenes/Intro';
 
 
 
@@ -29,16 +30,19 @@ const config = {
 
         
         MainMenu,
-        EndMenu,
+        Intro,
         Tutorial,
         GameScene,
         GameScene2,
         GameScene3,
         GameScene4,
         GameScene5,
+       
+        EndMenu,
     ],
     
     
 };
 
 const game = new Phaser.Game(config);
+

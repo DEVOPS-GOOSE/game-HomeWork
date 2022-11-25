@@ -42,7 +42,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('portal','src/img/tiles/portal.png')
 
         //========== audio=========
-        this.load.audio('bgMusic', 'src/audio/bgMusic.mp3');
         this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
     }
     
