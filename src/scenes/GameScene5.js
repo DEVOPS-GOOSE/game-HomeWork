@@ -72,7 +72,6 @@ class GameScene5 extends Phaser.Scene {
         this.physics.add.collider(bro1, platforms)
         this.physics.add.collider(bro2, platforms)
 
-    //    this.physics.add.overlap(player, exit)
         this.physics.add.overlap(player, exit, () => {
             this.scene.start("EndMenu");
         })
@@ -145,15 +144,10 @@ class GameScene5 extends Phaser.Scene {
 
     update(delta, time) {
         
-         let bro1X;
-        
-        // bro1.y = player.y
-        // bro2.y = player.y
         if(keyA.isDown){
             player.setVelocityX(-100);
             bro1.x = player.x +20;
             bro2.x = player.x +40;
-            
 
             player.flipX = true;
             bro1.flipX = true;
