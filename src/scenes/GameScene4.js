@@ -25,7 +25,9 @@ let smallr3;
 let small03Group;
 
 
-let event;
+let event
+
+let portal
 
 
 class GameScene4 extends Phaser.Scene {
@@ -67,6 +69,12 @@ class GameScene4 extends Phaser.Scene {
         this.load.image('smallrock1','src/img/tiles/Cave - SmallRocks.png');
         this.load.image('smallrock2','src/img/tiles/Cave - SmallRocks2.png');
         this.load.image('smallrock3','src/img/tiles/Cave - SmallRocks3.png');
+
+        this.load.image('portal','src/img/tiles/portal.png')
+
+        //========== audio=========
+        this.load.audio('portalSound', 'src/audio/portal_sound.mp3');
+
     }
     create() {
         background = this.add.image(192, 108, "bg");
@@ -143,6 +151,11 @@ class GameScene4 extends Phaser.Scene {
         monster.setCollideWorldBounds(true);
        // monster.setGravityY(500);
 
+       //============ Portal===========
+       portal = this.physics.add.image(375,145,'portal').setScale(0.1); //360,30
+       portal.setSize(200,400);
+       portal.setOffset(170,0);
+
         //========= Bro icon==========
         this.add.image(320,20,'bro1Icon').setScale(0.8);
         this.add.image(340,20,'bro2Icon').setScale(0.8);
@@ -155,6 +168,17 @@ class GameScene4 extends Phaser.Scene {
         this.physics.add.collider(monster, platforms)
         this.physics.add.overlap(player, lava)
         this.physics.add.overlap(player, spike)
+
+        this.physics.add.overlap(player, portal)
+        this.physics.add.overlap(player, portal, () => {
+            this.portalSound.play();
+            this.time.addEvent({
+                delay: 2000,
+                callback:
+                    this.scene.start("GameScene5")
+            })
+        })
+
         //==========animation==========
         this.anims.create({
             key: 'idleAni',
@@ -212,6 +236,12 @@ class GameScene4 extends Phaser.Scene {
 
         })
 
+        //============Touching monster=============
+        this.physics.add.overlap(player, monster, () => {
+            this.scene.restart()
+
+        })
+
         //==========smallrockgroup2==========
         this.physics.add.overlap(player, small02Group)
         this.physics.add.overlap(player,small02Group, () => {
@@ -230,7 +260,7 @@ class GameScene4 extends Phaser.Scene {
           });
         small01Group = this.physics.add.group(); 
          event = this.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             callback: function () {
                 smallr1  = this.physics.add.image(90,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
                 small01Group.add(smallr1)
@@ -240,11 +270,11 @@ class GameScene4 extends Phaser.Scene {
                 
             },
             callbackScope: this,
-            repeat: 1
+            loop:true
         })
         
         event = this.time.addEvent({
-            delay: 2500,
+            delay: 3100,
             callback: function () {
                 smallr1  = this.physics.add.image(190,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
                 small01Group.add(smallr1)
@@ -255,10 +285,10 @@ class GameScene4 extends Phaser.Scene {
                 
             },
             callbackScope: this,
-            repeat: 2
+            repeat: 3
         })
         event = this.time.addEvent({
-            delay: 1500,
+            delay: 3400,
             callback: function () {
                smallr1  = this.physics.add.image(120,40,'smallrock1').setScale(0.04,0.06).setDepth(1).setSize(180,290).setOffset(0,50)
                 small01Group.add(smallr1)
@@ -268,10 +298,10 @@ class GameScene4 extends Phaser.Scene {
                 
             },
             callbackScope: this,
-            repeat: 2
+            loop:true
         })
         event = this.time.addEvent({
-            delay: 2000,
+            delay: 2500,
             callback: function () {
                 smallr1  = this.physics.add.image(140,40,'smallrock1').setScale(0.04,0.06).setDepth(2).setSize(180,290).setOffset(0,50)
                 small01Group.add(smallr1)
@@ -281,7 +311,7 @@ class GameScene4 extends Phaser.Scene {
                 
             },
             callbackScope: this,
-            repeat:2
+            loop:true
         })
         event = this.time.addEvent({
             delay: 2500,
@@ -306,7 +336,9 @@ class GameScene4 extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR)
     
-        
+        //=========== Audio==========
+
+        this.portalSound = this.sound.add('portalSound')
     }
     update(delta, time) {
         if (monster.x == 250){
