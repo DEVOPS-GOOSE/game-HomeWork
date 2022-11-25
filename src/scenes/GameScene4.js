@@ -16,7 +16,7 @@ let keyD;
 let keySpace;
 
 let event;
-let x = 1;
+
 
 class GameScene4 extends Phaser.Scene {
     constructor(test) {
@@ -43,6 +43,9 @@ class GameScene4 extends Phaser.Scene {
             frameWidth: 192,
             frameHeight: 192,
         });    
+
+        this.load.image('bro1Icon', 'src/img/sprites/bro1/bro1Icon.png')
+        this.load.image('bro2Icon', 'src/img/sprites/bro2/bro2Icon.png')
     }
     create() {
         background = this.add.image(192, 108, "bg");
@@ -90,6 +93,9 @@ class GameScene4 extends Phaser.Scene {
         player.setCollideWorldBounds(true);
         player.setGravityY(500);
 
+        //========= Bro icon==========
+          this.add.image(320,20,'bro1Icon').setScale(0.8);
+          this.add.image(340,20,'bro2Icon').setScale(0.8);
         //========Collider==========
         this.physics.add.collider(player, platforms)
         this.physics.add.collider(player, plat_move)
