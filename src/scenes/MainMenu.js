@@ -2,7 +2,7 @@ import Phaser, { Scene } from "phaser";
 
 let background
 let button
-var bgMusic
+
 class MainMenu extends Phaser.Scene {
     constructor(test) {
         super({

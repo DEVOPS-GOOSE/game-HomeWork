@@ -18,7 +18,7 @@ class EndMenu extends Phaser.Scene {
 
     preload() {
         // code here
-        this.load.image('background', 'src/img/tiles/outside.png')
+        this.load.image('bgOutside', 'src/img/tiles/outside.png')
         this.load.image('restart_button', 'src/img/sprites/restart_button.png')
         this.load.image('text', 'src/img/sprites/tyforplaying1.png')
         this.load.spritesheet('playerIdle', 'src/img/sprites/player/idle.png', {frameWidth: 192, frameHeight: 192});
@@ -30,14 +30,13 @@ class EndMenu extends Phaser.Scene {
 
     }
     create() {
-        background = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/2,'background').setScale(0.2,0.2)
+        background = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/2,'bgOutside').setScale(0.2,0.2)
         button = this.add.image(this.sys.game.canvas.width/2,this.sys.game.canvas.height/3 + 20,'restart_button').setScale(0.3,0.3)
         button.setInteractive();
         button.on("pointerdown",()=>{
             this.clickSound.play()
             this.scene.start("GameScene")
         })
-
         //=========== Characters==========
         player = this.add.sprite(this.sys.game.canvas.width/2,150,'playerIdle').setScale(2)//.setSize(9,14).setOffset(92,98)
         bro1 = this.add.sprite(this.sys.game.canvas.width/2 - 60,150,'bro1').setScale(2)
@@ -92,7 +91,9 @@ class EndMenu extends Phaser.Scene {
             delay: 0
         }
         this.endMusic.play(endMusicConfig);
-    }
+    //    bgMusic.stop()
+
+    }   
 
     update(delta, time) {
         player.anims.play('playerAni', true);
