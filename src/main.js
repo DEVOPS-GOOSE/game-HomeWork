@@ -30,7 +30,6 @@ const config = {
 
         Intro,
         MainMenu,
-        
         Tutorial,
         GameScene,
         GameScene2,

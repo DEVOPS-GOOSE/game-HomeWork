@@ -1,4 +1,5 @@
 import Phaser, { Scene } from "phaser";
+import src from "phaser/plugins/camera3d/src";
 
 let background;
 let platforms;
@@ -9,6 +10,7 @@ let plat_right;
 
 let lava;
 let spike;
+let monster;
 
 let keyW;
 let keyA;
@@ -45,6 +47,11 @@ class GameScene4 extends Phaser.Scene {
         this.load.image("platform", "src/img/tiles/platform_dark.jpeg");
         this.load.image("lava", "src/img/tiles/lava.png");
         this.load.image("spike", "src/img/sprites/spike.png")
+        this.load.spritesheet("monsterWalk", "src/img/sprites/monster.png", {
+            frameWidth: 156,
+            frameHeight: 64,
+        });
+            
         this.load.spritesheet("playerIdle", "src/img/sprites/player/idle.png", {
             frameWidth: 192,
             frameHeight: 192,
@@ -128,15 +135,24 @@ class GameScene4 extends Phaser.Scene {
         player.setCollideWorldBounds(true);
         player.setGravityY(500);
 
+        //=====monster=====
+        monster = this.physics.add
+            .sprite(250, 110, "monsterWalk")
+            .setSize(21, 28)
+            .setOffset(43, 17.5);
+        monster.setCollideWorldBounds(true);
+        monster.setGravityY(500);
+
         //========= Bro icon==========
-          this.add.image(320,20,'bro1Icon').setScale(0.8);
-          this.add.image(340,20,'bro2Icon').setScale(0.8);
+        this.add.image(320,20,'bro1Icon').setScale(0.8);
+        this.add.image(340,20,'bro2Icon').setScale(0.8);
         //========Collider==========
         this.physics.add.collider(player, platforms)
         this.physics.add.collider(player, plat_move)
         this.physics.add.collider(plat_move, plat_right)
         this.physics.add.collider(plat_move, plat_vertical)
-
+        
+        this.physics.add.collider(monster, platforms)
         this.physics.add.overlap(player, lava)
         this.physics.add.overlap(player, spike)
         //==========animation==========
@@ -157,6 +173,20 @@ class GameScene4 extends Phaser.Scene {
             }),
             duration: 800,
             repeat: -1
+        })
+
+        //============= Moving Platform ===============
+        event = this.time.addEvent({
+            callback: function(){
+                if(monster.x ==250){
+                    monster.setVelocityX(50)
+                }else if(monster.x ==300){
+                    monster.setVelocityX(-50)
+                }
+                        
+            },
+            callbackScope: this,
+            loop: true
         })
       
         
